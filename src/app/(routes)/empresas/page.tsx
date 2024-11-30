@@ -2,6 +2,8 @@ import CardsGraficos from "@/app/components/cardsGraficos/cardsGraficos";
 import Footer from "@/app/components/footer/footer";
 import NavBar from "@/app/components/navBar/navBar";
 import PresentacionEmpresas from "@/app/components/presentacionEmpresas/presentacionEmpresas";
+import CotizacionButton from "@/app/sevices/prueba";
+
 
 
 export default function Empresas() {
@@ -13,6 +15,7 @@ export default function Empresas() {
         <PresentacionEmpresas />
       </div>
       <CardsGraficos/>
+      <CotizacionButton codigoEmpresa={"GOOGL"}/>
       <Footer />
     </div>
   );

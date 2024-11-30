@@ -1,6 +1,7 @@
 import React from 'react';
 import './cardsGraficos.css'; 
-import CotizacionesComponent from '../graficos/graficoRango/graficoRango';
+import ChartComponent from '../graficos/graficoLinea/graficoLinea';
+
 
 
 const CardsGraficos: React.FC = () => {
@@ -14,7 +15,7 @@ const CardsGraficos: React.FC = () => {
         <div className="card">
           
           <div className="contenido-card">
-          <CotizacionesComponent/>
+          
           </div>
         </div>
         
