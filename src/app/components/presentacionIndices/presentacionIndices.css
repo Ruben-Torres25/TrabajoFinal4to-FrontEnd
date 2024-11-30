@@ -1,0 +1,15 @@
+.presentacion-indices {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el contenido */
+}
+
+.imagen-redonda {
+    width: 300px; /* Ajusta el tamaño según tus necesidades */
+    height: 300px; /* Mantén la misma altura que el ancho para que sea redonda */
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+.texto-explicativo {
+    max-width: 600px; /* Ajusta el ancho máximo del texto */
+}
