@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { obtenerCotizacionesPorHoraYEmpresa } from "@/app/sevices/traerDatos";
+import { obtenerUltimosTresDiasCotizaciones } from "@/app/sevices/traerDatos";
 
 // Tipos de datos
 interface DatoBackend {
@@ -16,7 +16,7 @@ interface DatoBackend {
 }
 
 interface DatoGrafico {
-  date: number; // Timestamp combinado de fecha y hora
+  timeString: string; // Cadena combinada de fecha y hora
   value: number; // Cotización
 }
 
@@ -55,22 +55,11 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
 
     // Crear ejes con animaciones
     let xAxis = chart.xAxes.push(
-      am5xy.DateAxis.new(root, {
-        maxDeviation: 0.2,
-        baseInterval: {
-          timeUnit: "hour", // Usamos "hour" en lugar de "day"
-          count: 1,         // Cada intervalo es de 1 hora
-        },
+      am5xy.CategoryAxis.new(root, {
         renderer: am5xy.AxisRendererX.new(root, {
-          minorGridEnabled: true,
+          minGridDistance: 30, // Ajustar la distancia entre las etiquetas
         }),
-        tooltip: am5.Tooltip.new(root, {}),
-        dateFormats: {
-          day: "yyyy-MM-dd HH:mm", // Formato de fecha: año-mes-día hora:minutos
-        },
-        // Limitar el rango visible en el eje X (9:00 a 15:00)
-        min: new Date("2024-01-02T09:00:00").getTime(), // Hora de inicio
-        max: new Date("2024-01-02T15:00:00").getTime(), // Hora de fin
+        categoryField: "timeString", // El campo del eje será un string
       })
     );
 
@@ -89,7 +78,7 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
-        valueXField: "date",
+        categoryXField: "timeString",
       })
     );
 
@@ -104,7 +93,7 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
     series.appear(1000);
     chart.appear(1000, 100);
 
-    // Barra de desplazamiento horizontal (similar al original)
+    // Barra de desplazamiento horizontal
     chart.set(
       "scrollbarX",
       am5.Scrollbar.new(root, {
@@ -115,7 +104,7 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
     // Función para cargar los datos desde el backend
     const cargarDatos = async () => {
       try {
-        const datosBackend: DatoBackend[] = await obtenerCotizacionesPorHoraYEmpresa(codigoEmpresa);
+        const datosBackend: DatoBackend[] = await obtenerUltimosTresDiasCotizaciones(codigoEmpresa);
 
         // Filtrar los datos para que solo estén entre las 9:00 y las 15:00
         const datosFiltrados = datosBackend.filter((dato) => {
@@ -124,27 +113,16 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
         });
 
         // Transformar los datos filtrados en el formato adecuado para el gráfico
-        const datosTransformados: DatoGrafico[] = datosFiltrados.map((dato) => {
-          const fechaHora = `${dato.fecha}T${dato.hora}`;
-          const timestamp = new Date(fechaHora).getTime(); // Convertimos a timestamp
-          
-          return {
-            date: timestamp,
-            value: parseFloat(dato.cotization), // Convertimos la cotización a número
-          };
-        });
+        const datosTransformados: DatoGrafico[] = datosFiltrados.map((dato) => ({
+          timeString: `${dato.fecha} ${dato.hora}`, // Usamos la combinación de fecha y hora como string
+          value: parseFloat(dato.cotization),      // Convertimos la cotización a número
+        }));
 
         // Establecemos los datos en la serie
         series.data.setAll(datosTransformados);
 
-        // Definir el rango de las horas visibles en el gráfico (9:00 a 15:00)
-        const primerDato = datosTransformados[0]?.date;
-        const ultimoDato = datosTransformados[datosTransformados.length - 1]?.date;
-
-        if (primerDato && ultimoDato) {
-          xAxis.set("min", primerDato);  // Establece la hora de inicio (9:00)
-          xAxis.set("max", ultimoDato);  // Establece la hora de fin (15:00)
-        }
+        // Establecer las categorías en el eje X
+        xAxis.data.setAll(datosTransformados);
 
       } catch (error) {
         console.error("Error al cargar los datos:", error);
