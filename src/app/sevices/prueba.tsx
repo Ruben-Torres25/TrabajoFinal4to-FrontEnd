@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import obtenerCotizacionesPorEmpresa from "@/app/sevices/traerDatos";
+
 
 const CotizacionButton: React.FC<{ codigoEmpresa: string }> = ({ codigoEmpresa }) => {
   const handleClick = async () => {
@@ -17,3 +17,7 @@ const CotizacionButton: React.FC<{ codigoEmpresa: string }> = ({ codigoEmpresa }
 };
 
 export default CotizacionButton;
+
+function obtenerCotizacionesPorEmpresa(codigoEmpresa: string) {
+  throw new Error('Function not implemented.');
+}
