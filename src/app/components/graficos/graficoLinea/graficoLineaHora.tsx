@@ -56,12 +56,23 @@ const GraficoLineaEmpresaHora: React.FC<{ codigoEmpresa: string }> = ({ codigoEm
     // Crear ejes con animaciones
     let xAxis = chart.xAxes.push(
       am5xy.CategoryAxis.new(root, {
+        categoryField: "timeString", // Campo que contiene las cadenas
         renderer: am5xy.AxisRendererX.new(root, {
-          minGridDistance: 30, // Ajustar la distancia entre las etiquetas
+          minGridDistance: 30, // Ajustar la distancia mínima entre etiquetas
+          minorGridEnabled: true, // Mostrar grillas menores si es necesario
         }),
-        categoryField: "timeString", // El campo del eje será un string
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "{category}", // Mostrar el valor de la categoría en el tooltip
+        }),
       })
     );
+    
+    xAxis.get("renderer").labels.template.adapters.add("text", (text, target, key) => {
+      let index = target.dataItem?.index; // Obtener el índice del elemento
+      return index && index % 2 === 0 ? text : ""; // Mostrar solo etiquetas pares
+    });
+    
+    
 
     let yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {

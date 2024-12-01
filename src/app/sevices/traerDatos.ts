@@ -2,7 +2,7 @@ import clienteAxios from "./axios";
 
 export const obtenerCotizacionesPorDiaYEmpresa = async (codigoEmpresa: string) => {
     try {
-        const response = await clienteAxios.get(`/empresas/${codigoEmpresa}/promedio-cotizacion`); 
+        const response = await clienteAxios.get(`/cotizaciones/${codigoEmpresa}/promedio-cotizacion`); 
         return response.data; 
     } catch (error) {
         console.error('Error al obtener las cotizaciones:', error);
@@ -12,7 +12,7 @@ export const obtenerCotizacionesPorDiaYEmpresa = async (codigoEmpresa: string) =
 
 export const obtenerCotizacionesPorHoraYEmpresa = async (codigoEmpresa: string) => {
     try {
-        const response = await clienteAxios.get(`/empresas/${codigoEmpresa}/cotizaciones`); 
+        const response = await clienteAxios.get(`/cotizaciones/${codigoEmpresa}/cotizaciones`); 
         return response.data; 
     } catch (error) {
         console.error('Error al obtener las cotizaciones:', error);
@@ -32,7 +32,7 @@ export const obtenerTodasEmpresas = async () => {
 
 export const obtenerUltimosTresDiasCotizaciones= async (codigoEmpresa: string) => {
     try {
-        const response = await clienteAxios.get(`/empresas/${codigoEmpresa}/ultimos-tres-dias`); 
+        const response = await clienteAxios.get(`/cotizaciones/${codigoEmpresa}/ultimos-tres-dias`); 
         return response.data; 
     } catch (error) {
         console.error('Error al obtener las cotizaciones:', error);
