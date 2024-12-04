@@ -22,6 +22,13 @@ i18next
                             primeroFooter: "Indústrias Bovespa.",
                             segundoFooter: "Oferecendo tecnologia confiável desde 1992",
                             terceroFooter: "Todos os direitos reservados",
+                            
+                            tituloCardIndice: "Índices de ações",
+                            descripcionCardIndice: "Observe os últimos acontecimentos ocorridos nas bolsas de valores de todos os países do mundo",
+                            tituloCardEmpresas: "Cotação comercial",
+                            descripcionCardEmpresas: "Observe as últimas cotações das empresas que você deseja, em nosso inovador sistema gráfico",
+                            verMas: "Ver mais",
+
 
                             buttons: {
                                 
@@ -46,6 +53,12 @@ i18next
                             primeroFooter: "Bovespa Industries.",
                             segundoFooter: "Ofreciendo tecnologia confiable desde 1992",
                             terceroFooter: "Todos los derechos reservados",
+                            
+                            tituloCardIndice: "Indices Bursatiles",
+                            descripcionCardIndice: "Observe los ultimos acontecimientos ocurridos en las bolsas de todos los paises del mundo",
+                            tituloCardEmpresas: "Cotizacion de empresas",
+                            descripcionCardEmpresas: " Observe las ultimas cotizaciones de las empresas que desee, en nuestro innovador sistema grafico",
+                            verMas: "Ver Mas",
 
                             buttons: {
                                 
