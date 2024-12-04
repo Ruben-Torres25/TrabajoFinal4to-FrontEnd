@@ -5,6 +5,7 @@ import GraficoLineaBolsaMes from '../graficos/graficoLinea/graficoLineaMes';
 import GraficoMultiBolsa from '../graficos/graficoMultilinea/graficoMultiBolsa';
 import './cardsGraficos.css'; 
 import GraficoTortaBolsas from '../graficos/graficoTorta/graficoTortaBolsas';
+import { useTranslation } from 'next-i18next';
 
 interface Props {
   codigoIndice: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const CardsGraficosBolsas: React.FC<Props> = ({ codigoIndice, nombreIndice }) => {
+  const { t } = useTranslation();
   return (
     <div className="mb-10 bg bg-gray-800">
       <div className="title-cards">
@@ -21,28 +23,27 @@ const CardsGraficosBolsas: React.FC<Props> = ({ codigoIndice, nombreIndice }) =>
       <div className="container-card">
         <div className="card">
           <div className="contenido-card">
-            <h3>Gráfico por Día</h3>
+            <h3>{t('graficoDia')}</h3>
             <GraficoLineaBolsaDia codigoIndice={codigoIndice} />
           </div>
         </div>
 
         <div className="card">
           <div className="contenido-card">
-            <h3>Gráfico por Mes</h3>
+            <h3>{t('graficoMes')}</h3>
             <GraficoLineaBolsaMes codigoIndice={codigoIndice} />
           </div>
         </div>
 
         <div className="cardGrande full-width-card">
           <div className="contenido-card">
-            <h3>Gráfico Completo de {nombreIndice}</h3>
+            <h3>{nombreIndice}</h3>
             <GraficoMultiBolsa />
           </div>
         </div>
 
         <div className="cardGrande full-width-card">
           <div className="contenido-card">
-            <h3>Gráfico De Torta</h3>
             <GraficoTortaBolsas />
           </div>
         </div>

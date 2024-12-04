@@ -4,6 +4,7 @@ import GraficoLineaBolsaMes from "@/app/components/graficos/graficoLinea/grafico
 
 
 export default function Pruebas() {
+  
   return (
     <>
     <div>

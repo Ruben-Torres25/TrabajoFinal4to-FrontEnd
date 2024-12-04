@@ -1,6 +1,22 @@
+'use client'
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
+import { useState } from 'react';
+import '../../i18n'; // Ajusta la ruta según la ubicación real de i18n.js
 
 export default function NavBar() {
+    
+  const [selectedLanguage, setSelectedLanguage] = useState('pt'); // Cambia 'ENGLISH' a 'pt' para portugués
+
+  // Actualizo la configuración de i18n y genero un hook para realizar la traducción y acceder a los datos.
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (language: string) => {
+    setSelectedLanguage(language);
+    i18n.changeLanguage(language);
+  }
+    
+    
     return (
         <>
             <div className="navbar bg-gray-800 justify-center">
@@ -62,8 +78,22 @@ export default function NavBar() {
                             <details>
                                 <summary className="text-white">Idioma</summary>
                                 <ul className="bg-gray-700 rounded-t-none p-0">
-                                    <li><a className="text-white " href="#">Español</a></li>
-                                    <li><a className="text-white" href="#">Portugues</a></li>
+                                <li>
+                    <a
+                      className="text-white"
+                      onClick={() => handleLanguageChange('es')} // Para español
+                    >
+                      {t('buttons.spanish')} {selectedLanguage === 'es'}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="text-white"
+                      onClick={() => handleLanguageChange('pt')} // Para portugués
+                    >
+                      {t('buttons.portugues')} {selectedLanguage === 'pt'}
+                    </a>
+                  </li>
                                 </ul>
                             </details>
                         </li>

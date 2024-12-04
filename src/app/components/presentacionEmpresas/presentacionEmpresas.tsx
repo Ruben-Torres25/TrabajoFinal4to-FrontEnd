@@ -1,7 +1,9 @@
 import React from 'react';
 import './presentacionEmpresas.css';
+import { useTranslation } from 'next-i18next';
 
 export default function PresentacionEmpresas() {
+    const { t } = useTranslation();
     return (
         <div className="presentacion-empresas flex items-center text-white mt-4">
             <img 
@@ -11,10 +13,9 @@ export default function PresentacionEmpresas() {
                 className="imagen-redonda w-1/3 h-auto"
             />
             <div className="texto-explicativo ml-4"> 
-                <h2 className="text-3xl font-bold">Cotizacion de empresas</h2> 
+            <h2 className="text-3xl font-bold">{t('tituloEmpresaPresentacion')}</h2> 
                 <p className="text-lg mt-2">
-                La cotización de una empresa es el precio al que se negocian sus acciones en el mercado de valores. Este valor refleja la percepción de los inversores sobre su valor actual y potencial, influenciado por factores como su desempeño financiero, expectativas de crecimiento y condiciones del mercado.
-                </p>
+                {t('textoEmpresaPresentacion')}</p>
             </div>
         </div>
     );
