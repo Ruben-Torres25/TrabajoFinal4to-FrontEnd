@@ -4,7 +4,7 @@ import Footer from "@/app/components/footer/footer";
 import NavBar from "@/app/components/navBar/navBar";
 
 
-export default function Home() {
+export default function Homes() {
   return (
     <>
       <NavBar />

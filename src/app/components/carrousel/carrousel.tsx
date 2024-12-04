@@ -40,11 +40,11 @@ const Carrousel: React.FC = () => {
                             >
                                 <div className={styles.row}>
                                     <div className={styles.icon}>{slideIndex}</div>
-                                    <div className={styles.description}>
-                                        <h4>{slideIndex === 1 ? 'Winter' : slideIndex === 2 ? 'Digital Technology' : slideIndex === 3 ? 'Globalization' : 'New technologies'}</h4>
-                                        <p>{slideIndex === 1 ? 'Winter has so much to offer - creative activities' : slideIndex === 2 ? 'Gets better every day - stay tuned' : slideIndex === 3 ? 'Help people all over the world' : 'Space engineering becomes more and more advanced'}</p>
+                                    <div className={`${styles.description} fondoOpacado`}>
+                                        <h4>{slideIndex === 1 ? 'Bovespa' : slideIndex === 2 ? 'Actualizaciones' : slideIndex === 3 ? 'Globalizacion' : 'Nuevas tecnologias'}</h4>
+                                        <p>{slideIndex === 1 ? 'Bovespas - bolsa de finanzas Brasilera' : slideIndex === 2 ? 'Cotizaciones actualizadas por empresas' : slideIndex === 3 ? 'Ayuda a visualizar las bolsas de todo el mundo' : 'Constante mejora de codificacion, aumenta la experiencia al usuario'}</p>
                                     </div>
-                                </div>
+                                </div> 
                             </label>
                         </React.Fragment>
                     );

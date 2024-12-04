@@ -1,7 +1,9 @@
 import React from 'react';
 import './presentacionEmpresas.css';
+import { useTranslation } from 'next-i18next';
 
 export default function PresentacionEmpresas() {
+    const { t } = useTranslation();
     return (
         <div className="presentacion-empresas flex items-center text-white mt-4">
             <img 
@@ -11,11 +13,9 @@ export default function PresentacionEmpresas() {
                 className="imagen-redonda w-1/3 h-auto"
             />
             <div className="texto-explicativo ml-4"> 
-                <h2 className="text-3xl font-bold">Cotizacion de empresas</h2> 
+            <h2 className="text-3xl font-bold">{t('tituloEmpresaPresentacion')}</h2> 
                 <p className="text-lg mt-2">
-                    Los índices bursátiles son indicadores que reflejan el comportamiento de un conjunto de acciones en el mercado. 
-                    Estos índices permiten a los inversores medir el rendimiento del mercado y compararlo con sus propias inversiones.
-                </p>
+                {t('textoEmpresaPresentacion')}</p>
             </div>
         </div>
     );
