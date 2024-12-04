@@ -13,8 +13,7 @@ export default function PresentacionEmpresas() {
             <div className="texto-explicativo ml-4"> 
                 <h2 className="text-3xl font-bold">Cotizacion de empresas</h2> 
                 <p className="text-lg mt-2">
-                    Los índices bursátiles son indicadores que reflejan el comportamiento de un conjunto de acciones en el mercado. 
-                    Estos índices permiten a los inversores medir el rendimiento del mercado y compararlo con sus propias inversiones.
+                La cotización de una empresa es el precio al que se negocian sus acciones en el mercado de valores. Este valor refleja la percepción de los inversores sobre su valor actual y potencial, influenciado por factores como su desempeño financiero, expectativas de crecimiento y condiciones del mercado.
                 </p>
             </div>
         </div>

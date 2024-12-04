@@ -1,12 +1,14 @@
 "use client";
 
 import React from 'react';
+import { obtenerCotizacionesUltimoMes, obtenerPromedioMensualCotizacionesIndices, obtenerTodosIndices } from './traerDatos';
 
 
-const CotizacionButton: React.FC<{ codigoEmpresa: string }> = ({ codigoEmpresa }) => {
+
+const CotizacionButton: React.FC<{}> = () => {
   const handleClick = async () => {
     try {
-      const data = await obtenerCotizacionesPorEmpresa(codigoEmpresa);
+      const data = await obtenerPromedioMensualCotizacionesIndices();
       console.log(data); // Verifica que los datos se estén obteniendo correctamente
     } catch (error) {
       console.error("Error al obtener cotizaciones:", error);

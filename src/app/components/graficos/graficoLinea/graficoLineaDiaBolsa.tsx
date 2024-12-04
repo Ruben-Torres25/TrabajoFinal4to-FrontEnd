@@ -4,32 +4,33 @@ import React, { useEffect, useRef } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { obtenerPromedioCotizacionesUltimoMesAgrupadosPorEmpresa } from "@/app/sevices/traerDatos";
+import { obtenerCotizacionesUltimoMesPorIndices } from "@/app/sevices/traerDatos"; // Asegúrate de importar la función
 
 // Tipos de datos
-interface Promedio {
+interface Cotizacion {
   fecha: string; // Fecha en formato 'yyyy-MM-dd'
-  promedio: number; // Promedio
+  hora: string;  // Hora en formato 'HH:mm:ss'
+  valorCotizacionIndice: string; // Cotización
 }
 
-interface EmpresaData {
-  codempresa: string; // Código de la empresa
-  promedios: Promedio[]; // Array de promedios
+interface DiaCotizacion {
+  fecha: string; // Fecha
+  cotizaciones: Cotizacion[]; // Array de cotizaciones
 }
 
-interface DatoGrafico {
-  date: number; // Timestamp
-  value: number; // Promedio
+interface IndiceData {
+  codigoIndice: string; // Código del índice
+  cotizacionesPorDia: DiaCotizacion[]; // Array de cotizaciones por día
 }
 
-const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmpresa }) => {
+const GraficoLineaBolsaDia: React.FC<{ codigoIndice: string }> = ({ codigoIndice }) => {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
 
     // Crear la raíz de amCharts
-    let root = am5.Root.new(chartRef.current);
+    const root = am5.Root.new(chartRef.current);
 
     // Aplicar tema animado
     root.setThemes([am5themes_Animated.new(root)]);
@@ -45,7 +46,6 @@ const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmp
       })
     );
 
-    // Cursor con animación
     let cursor = chart.set(
       "cursor",
       am5xy.XYCursor.new(root, {
@@ -66,6 +66,11 @@ const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmp
           minorGridEnabled: true,
         }),
         tooltip: am5.Tooltip.new(root, {}),
+        // Aquí agregas el formateador de fechas
+        dateFormatter: am5.DateFormatter.new(root, {
+          dateFormat: "yyyy-MM-dd", // Formato solo de fecha
+          // Puedes ajustar el formato según tus necesidades
+        }),
       })
     );
 
@@ -78,7 +83,7 @@ const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmp
     // Crear serie de líneas con animación
     let series = chart.series.push(
       am5xy.LineSeries.new(root, {
-        name: "Promedio",
+        name: "Cotización",
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
@@ -100,21 +105,22 @@ const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmp
         orientation: "horizontal",
       })
     );
-
     // Función para cargar datos del backend
     const cargarDatos = async () => {
       try {
-        const datosBackend: EmpresaData[] = await obtenerPromedioCotizacionesUltimoMesAgrupadosPorEmpresa();
-        
+        const datosBackend: IndiceData[] = await obtenerCotizacionesUltimoMesPorIndices();
+
         // Filtrar el índice correspondiente
-        const empresaData = datosBackend.find(empresa => empresa.codempresa === codigoEmpresa);
-        if (!empresaData) return; // Si no se encuentra la empresa, salimos
+        const indiceData = datosBackend.find(indice => indice.codigoIndice === codigoIndice);
+        if (!indiceData) return;
 
         // Transformar los datos en el formato adecuado para el gráfico
-        const datosTransformados: DatoGrafico[] = empresaData.promedios.map((promedio) => ({
-          date: new Date(promedio.fecha).getTime(), // Convertir la fecha a timestamp
-          value: promedio.promedio, // Asignar el promedio
-        }));
+        const datosTransformados = indiceData.cotizacionesPorDia.flatMap(dia => 
+          dia.cotizaciones.map(cotizacion => ({
+            date: new Date(`${dia.fecha}T${cotizacion.hora}`).getTime(),
+            value: parseFloat(cotizacion.valorCotizacionIndice),
+          }))
+        );
 
         // Establecer los datos en la serie
         series.data.setAll(datosTransformados);
@@ -127,12 +133,12 @@ const GraficoLineaEmpresaDia: React.FC<{ codigoEmpresa: string }> = ({ codigoEmp
 
     // Limpiar instancia al desmontar el componente
     return () => {
-      root.dispose(); // // Limpiar la instancia de amCharts al desmontar el componente
-      root.dispose();
+      chart.dispose(); // Asegúrate de destruir el gráfico
+      root.dispose();  // Destruir la raíz también
     };
-  }, [codigoEmpresa]);
+  }, [codigoIndice]);
 
   return <div ref={chartRef} style={{ width: "100%", height: "500px" }} />;
 };
 
-export default GraficoLineaEmpresaDia;
+export default GraficoLineaBolsaDia;

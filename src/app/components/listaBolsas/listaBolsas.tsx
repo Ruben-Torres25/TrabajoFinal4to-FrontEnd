@@ -1,21 +1,19 @@
-// src/app/components/ListaEmpresas/ListaEmpresas.tsx
+// src/app/components/ListaBolsas/BolsasList.tsx
 import React from 'react';
 
-// Definir la interfaz para la empresa
-interface Empresa {
-  id: number;
-  codempresa: string;
-  empresaNombre: string;
-  cotizacionInicial: string;
-  cantidadAcciones: string;
+// Definir la interfaz para el índice
+interface Indice {
+  _id: string;
+  codIndice: string;
+  nombreIndice: string;
 }
 
 interface Props {
-  empresas: Empresa[];
+  indices: Indice[];
   onSelect: (codigo: string, nombre: string) => void; // Cambiar la firma de la función
 }
 
-const EmpresaList: React.FC<Props> = ({ empresas, onSelect }) => {
+const BolsasList: React.FC<Props> = ({ indices, onSelect }) => {
   return (
     <div style={{ 
       display: 'flex', 
@@ -25,10 +23,10 @@ const EmpresaList: React.FC<Props> = ({ empresas, onSelect }) => {
       justifyContent: 'center', // Centrar el contenido
       marginTop: '64px' // Mantener el margen superior
     }}>
-      {empresas.map(empresa => (
+      {indices.map(indice => (
         <div
-          key={empresa.id}
-          onClick={() => onSelect(empresa.codempresa, empresa.empresaNombre)}
+          key={indice._id}
+          onClick={() => onSelect(indice.codIndice, indice.nombreIndice)}
           style={{
             border: '1px solid #ddd',
             borderRadius: '8px',
@@ -40,11 +38,11 @@ const EmpresaList: React.FC<Props> = ({ empresas, onSelect }) => {
             background: '#eee'
           }}
         >
-          <h3>{empresa.empresaNombre}</h3>
+          <h3>{indice.nombreIndice}</h3>
         </div>
       ))}
     </div>
   );
 };
 
-export default EmpresaList;
+export default BolsasList;

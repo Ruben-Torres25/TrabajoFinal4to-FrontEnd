@@ -3,16 +3,15 @@ import React, { useEffect, useRef } from "react";
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { obtenerPromedioCotizacionesPorDiaDeTodasLasEmpresas } from "@/app/sevices/traerDatos";
+import { obtenerPromedioCotizacionesPorDiaDeTodosLosIndices } from "@/app/sevices/traerDatos"; // Asegúrate de importar la función
 
 interface DatoPromedio {
-  codempresa: string;
-  nombre: string; // Nombre de la empresa
+  codigoIndice: string;
   fecha: string; // 'yyyy-MM-dd'
   promedio: number;
 }
 
-const GraficoMultiLinea: React.FC = () => {
+const GraficoMultiLineaBolsa: React.FC = () => {
   const chartRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ const GraficoMultiLinea: React.FC = () => {
       maxTooltipDistance: 0,
       pinchZoomX: true,
     }));
-
     let xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
       maxDeviation: 0.2,
       baseInterval: {
@@ -73,23 +71,30 @@ const GraficoMultiLinea: React.FC = () => {
       orientation: "vertical",
     }));
 
+
     const cargarDatos = async () => {
       try {
-        const datosBackend: DatoPromedio[] = await obtenerPromedioCotizacionesPorDiaDeTodasLasEmpresas();
+        const datosBackend: DatoPromedio[] = await obtenerPromedioCotizacionesPorDiaDeTodosLosIndices();
 
+        // Agrupar datos por código de índice, ignorando el índice TSE
         const groupedData: Record<string, { date: number; value: number }[]> = {};
         datosBackend.forEach(dato => {
-          const { nombre, fecha, promedio } = dato;
+          const { codigoIndice, fecha, promedio } = dato;
+
+          // Ignorar el índice TSE por las cotizaciones gigantes que da, rompe el grafico
+          if (codigoIndice === "TSE") return;
+
           const date = new Date(fecha).getTime();
-          if (!groupedData[nombre]) {
-            groupedData[nombre] = [];
+          if (!groupedData[codigoIndice]) {
+            groupedData[codigoIndice] = [];
           }
-          groupedData[nombre].push({ date, value: promedio });
+          groupedData[codigoIndice].push({ date, value: promedio });
         });
 
-        Object.entries(groupedData).forEach(([nombre, data]) => {
+        // Crear series para cada índice
+        Object.entries(groupedData).forEach(([codigoIndice, data]) => {
           const series = chart.series.push(am5xy.LineSeries.new(root, {
-            name: nombre, // Usamos el nombre completo
+            name: codigoIndice,
             xAxis: xAxis,
             yAxis: yAxis,
             valueYField: "value",
@@ -104,6 +109,8 @@ const GraficoMultiLinea: React.FC = () => {
           series.data.setAll(data);
           series.appear();
         });
+        
+        
 
         const legend = chart.rightAxesContainer.children.push(am5.Legend.new(root, {
           width: 220, // Incrementamos el ancho de la leyenda
@@ -147,4 +154,4 @@ const GraficoMultiLinea: React.FC = () => {
   return <div ref={chartRef} style={{ width: "100%", height: "500px" }} />;
 };
 
-export default GraficoMultiLinea;
+export default GraficoMultiLineaBolsa;

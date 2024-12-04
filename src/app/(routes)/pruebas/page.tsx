@@ -1,9 +1,5 @@
-import GraficoLineaEmpresaDia from "@/app/components/graficos/graficoLinea/graficoLineaDia";
-import GraficoLineaHora from "@/app/components/graficos/graficoLinea/graficoLineaHora";
-import GraficoMulti from "@/app/components/graficos/graficoMultilinea/graficoMulti";
-
-
-
+import GraficoLineaBolsaDia from "@/app/components/graficos/graficoLinea/graficoLineaDiaBolsa";
+import GraficoLineaBolsaMes from "@/app/components/graficos/graficoLinea/graficoLineaMes";
 
 
 
@@ -11,8 +7,8 @@ export default function Pruebas() {
   return (
     <>
     <div>
-      <h1>Gráfico de MULTILINEA</h1>
-      <GraficoMulti/>
+      <h1>Gráfico de BOLSAAAAS</h1>
+      <GraficoLineaBolsaMes codigoIndice={"IBOV"} />
     </div>
 
     

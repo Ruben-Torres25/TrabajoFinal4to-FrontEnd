@@ -3,15 +3,17 @@ import React from 'react';
 import './cardsGraficos.css'; 
 import GraficoLineaEmpresaDia from '../graficos/graficoLinea/graficoLineaDia';
 import GraficoLineaEmpresaHora from '../graficos/graficoLinea/graficoLineaHora';
+import GraficoMultiLinea from '../graficos/graficoMultilinea/graficoMulti';
+import GraficoTortaEmpresas from '../graficos/graficoTorta/graficoTortaEmpresas';
 
 interface Props {
   codigoEmpresa: string; 
   nombreEmpresa: string; 
 }
 
-const CardsGraficos: React.FC<Props> = ({ codigoEmpresa, nombreEmpresa }) => {
+const CardsGraficosEmpresas: React.FC<Props> = ({ codigoEmpresa, nombreEmpresa }) => {
   return (
-    <div className="mb-10">
+    <div className="mb-10 bg bg-gray-800">
       
       <div className="title-cards">
         <h2>{nombreEmpresa}</h2> 
@@ -38,9 +40,23 @@ const CardsGraficos: React.FC<Props> = ({ codigoEmpresa, nombreEmpresa }) => {
           </div>
         </div>
 
+        <div className="cardGrande full-width-card">
+        <div className="contenido-card">
+          <h3>Gráfico Completo de {nombreEmpresa}</h3>
+          <GraficoMultiLinea />
+        </div>
+      </div>
+
+      <div className="cardGrande full-width-card">
+        <div className="contenido-card">
+          <h3>Grafico de torta</h3>
+          <GraficoTortaEmpresas />
+        </div>
+      </div>
+
       </div>
     </div>
   );
 };
 
-export default CardsGraficos;
+export default CardsGraficosEmpresas;

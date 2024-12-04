@@ -1,6 +1,7 @@
 .presentacion-indices {
     display: flex;
     align-items: center; /* Alinea verticalmente el contenido */
+    height: 400px;
 }
 
 .imagen-redonda {

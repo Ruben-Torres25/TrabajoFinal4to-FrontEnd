@@ -6,6 +6,21 @@
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
 }
+.full-width-card {
+  width: 100%; /* Ocupa el 100% del ancho disponible */
+  margin: 20px 0; /* Margen vertical */
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  transition: all 400ms ease-out;
+  cursor: default;
+}
+
+.full-width-card:hover {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3%);
+}
 
 /* Título de las tarjetas */
 .title-cards {
@@ -28,10 +43,21 @@
   color: #fff;
 }
 
+.cardGrande {
+  width: 86%;
+  max-width: 86%; /* Aumento el ancho máximo de las tarjetas */
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+  transition: all 400ms ease-out;
+  cursor: default;
+  min-height: 450px; /* Altura mínima para las tarjetas */
+}
 /* Tarjetas */
 .card {
   width: 100%;
-  max-width: 700px; /* Aumento el ancho máximo de las tarjetas */
+  max-width: 42%; /* Aumento el ancho máximo de las tarjetas */
   border-radius: 6px;
   overflow: hidden;
   background: #fff;
